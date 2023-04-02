@@ -29,21 +29,28 @@ def deletion(word: str) -> str:
 
 def replace(word: str, randomly: bool = False, key_map_option: int = 0) -> str:
     """Function that replaces a char in the word."""
+    i = 0
     while True:
         idx = random.randint(0, len(word) - 1)
         word = list(word)
+        print(f"Replave while True = {word[idx]}")
+
         if randomly:
             word[idx] = random.choice(re.sub(r'[\s]', '', string.printable))
             return "".join(word)
-        if word[idx].isalpha():
+        elif not randomly and word[idx].isalpha():
             word[idx] = get_close_key_error(word[idx].upper(), key_map_option)
             return "".join(word)
-
+        i += 1
+        if i ==5:
+            randomly = True
 
 
 def insert(word: str, randomly: bool = False, key_map_option: int = 0) -> str:
+    print("insert while True")
 
     """Function that inserts a char in the word."""
+    i = 0
     while True:
         idx = random.randint(0, len(word))
         if randomly:
@@ -56,6 +63,11 @@ def insert(word: str, randomly: bool = False, key_map_option: int = 0) -> str:
             elif idx < len(word) and word[idx].isalpha():
                 word.insert(idx, get_close_key_error(word[idx].upper(), key_map_option))
                 return "".join(word)
+        i += 1
+        if i == 5:
+            randomly = True
+            word = "".join(word)
+
 
 
 def misspell_sentence(sentence: str, amount_of_misspells: int = 1, randomly: bool = False):
