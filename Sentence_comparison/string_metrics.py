@@ -37,8 +37,6 @@ class Replace(EditOperation):
                  next_char: str):
         self.old_char = old_char
         self.new_char = new_char
-        print('  new char: ', self.new_char)
-        print('old char: ', self.old_char)
         self.close_key = get_close_key_map(self.old_char, self.new_char)
         super().__init__(operation_type_name='Replace', operation_subtype_id=operation_subtype_id,
                          idx=idx, previous_char=previous_char, next_char=next_char)
@@ -122,8 +120,8 @@ class Distance:
             print(str_1)
             self.string_1 = str_1
             self.template_string = str_2
-            # self.operations = []
-            # self.set_operations()
+            self.operations = []
+            self.set_operations()
 
             # edit
             self.norm_sim_damerau_levenshtein = textdistance.damerau_levenshtein.normalized_similarity(self.string_1,

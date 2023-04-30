@@ -133,6 +133,5 @@ if __name__ == '__main__':
             else:
                 i+=2
 
-                # pd.DataFrame.from_dict(dictionary).to_csv(os.path.normpath(f'./csv_output/{i}rand_misspells.csv'),
-                #                                           mode='a+', sep=';')
+
 

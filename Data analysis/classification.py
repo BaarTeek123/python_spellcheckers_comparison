@@ -3,32 +3,9 @@ from itertools import chain
 import pandas as pd
 from matplotlib import pyplot as plt
 import seaborn as sns
+from data_analysis_config import col_name_map
 
-col_name_map = {
-    'string_1': 'Tested string',
-    'template_string': 'Template string',
-    'norm_sim_damerau_levenshtein': 'Damerau–Levenshtein normalized similarity',
-    'damerau_levenshtein_distance': 'Damerau–Levenshtein distance',
-    'norm_sim_jaro_winkler': 'Jaro-Winkler normalized similarity',
-    'jaro_winkler_distance': 'Jaro-Winkler distance',
-    'norm_sim_sorensen_dice': 'Sørensen–Dice coefficient (normalized similarity)',
-    'sorensen_dice_distance': 'Sørensen–Dice coefficient ',
-    'norm_sim_cosine': 'Cosine normalized similarity',
-    'cosine_distance': 'Cosine distance',
-    'norm_sim_overlap': 'Szymkiewicz–Simpson coefficient (normalized similarity)',
-    'overlap_distance': 'Szymkiewicz–Simpson coefficient',
-    'norm_sim_mra': 'Match rating approach normalized similarity',
-    'mra_distance': 'Match rating approach distance',
-    'norm_sim_lcsstr': 'Longest common substring similarity (normalized similarity)',
-    'lcsstr_distance': 'Longest common substring similarity distance',
-    'norm_sim_gestalt': 'Ratcliff-Obershelp similarity (normalized similarity)',
-    'gestalt_distance': 'Ratcliff-Obershelp similarity (distance)',
-    'function': 'Function',
-    'time': 'Time',
-    'sentence_before_corr': "Sentence before correction",
-    'operations_made_to_create_misspells': "Operations made to create misspells",
-    'amount_of_errors': "Amount of misspells (in input sentence)"
-}
+
 # load dataframe
 fp_df = pd.read_csv("./csv_output/fp.csv", delimiter=';')
 key_df = pd.read_csv("./csv_output/key_misspells.csv", delimiter=';')
@@ -87,12 +64,12 @@ TYPES_COLUMN_NAMES = {
     ],
 
     'TOKEN': [
-        #'Sørensen–Dice coefficient (normalized similarity)',
+        # 'Sørensen–Dice coefficient (normalized similarity)',
         'Sørensen–Dice coefficient ',
-        #'Cosine normalized similarity',
+        # 'Cosine normalized similarity',
         'Cosine distance',
         'Szymkiewicz–Simpson coefficient (normalized similarity)',
-        #'Szymkiewicz–Simpson coefficient'
+        # 'Szymkiewicz–Simpson coefficient'
     ],
     'SEQUENCE': [
         'Longest common substring similarity (normalized similarity)',
@@ -108,11 +85,14 @@ for by in list(chain.from_iterable(TYPES_COLUMN_NAMES.values())):
     for name, combined in data_frames.items():
         # assign quantile and median
         if 'QWERTY'.lower() in name.lower():
-            quantiles = [key_df[by].quantile(0.25), key_df[by].quantile(0.5), key_df[by].quantile(0.75)]
+            quantiles = [key_df[by].quantile(0.25), key_df[by].quantile(
+                0.5), key_df[by].quantile(0.75)]
         elif 'random'.lower() in name.lower():
-            quantiles = [rand_df[by].quantile(0.25), rand_df[by].quantile(0.5), rand_df[by].quantile(0.75)]
+            quantiles = [rand_df[by].quantile(0.25), rand_df[by].quantile(
+                0.5), rand_df[by].quantile(0.75)]
         else:
-            quantiles = [fp_df[by].quantile(0.25), fp_df[by].quantile(0.5), fp_df[by].quantile(0.75)]
+            quantiles = [fp_df[by].quantile(0.25), fp_df[by].quantile(
+                0.5), fp_df[by].quantile(0.75)]
         # normalized similarity
         if 'normalized similarity'.lower() in by.lower():
             # goal for similarity
@@ -123,8 +103,10 @@ for by in list(chain.from_iterable(TYPES_COLUMN_NAMES.values())):
             # 3rd is 3rd quantile and 2nd quantile
             scores = combined.groupby('Function')[by].agg(
                 [(RESULT_COLUMN_NAMES[0], lambda x: (x == goal).sum()),
-                 (RESULT_COLUMN_NAMES[1], lambda x: ((x < goal) & (x >= quantiles[2])).sum()),
-                 (RESULT_COLUMN_NAMES[2], lambda x: ((x >= quantiles[1]) & (x < quantiles[2])).sum()),
+                 (RESULT_COLUMN_NAMES[1], lambda x: (
+                     (x < goal) & (x >= quantiles[2])).sum()),
+                 (RESULT_COLUMN_NAMES[2], lambda x: (
+                     (x >= quantiles[1]) & (x < quantiles[2])).sum()),
                  ('Total count', 'count')])
 
         # distance
@@ -137,8 +119,10 @@ for by in list(chain.from_iterable(TYPES_COLUMN_NAMES.values())):
             # 3rd is 1st quantile and 2nd quantile
             scores = combined.groupby('Function')[by].agg(
                 [(RESULT_COLUMN_NAMES[0], lambda x: (x == goal).sum()),
-                 (RESULT_COLUMN_NAMES[1], lambda x: ((x > goal) & (x <= quantiles[0])).sum()),
-                 (RESULT_COLUMN_NAMES[2], lambda x: ((x > quantiles[0]) & (x <= quantiles[1])).sum()),
+                 (RESULT_COLUMN_NAMES[1], lambda x: (
+                     (x > goal) & (x <= quantiles[0])).sum()),
+                 (RESULT_COLUMN_NAMES[2], lambda x: (
+                     (x > quantiles[0]) & (x <= quantiles[1])).sum()),
                  ('Total count', 'count')])
 
         # normalize results to the count of function
@@ -147,16 +131,21 @@ for by in list(chain.from_iterable(TYPES_COLUMN_NAMES.values())):
 
         # calculate weighted average of first, second and the third range
         scores['Weighted average'] = scores[RESULT_COLUMN_NAMES].dot(WEIGTHS)
-        scores.sort_values(by='Weighted average', ascending=False, inplace=True)
+        scores.sort_values(by='Weighted average',
+                           ascending=False, inplace=True)
 
         # assign default classification and score value
         scores['Classification'] = 'Not in top 10'
         scores['Score'] = 0
         # assign values for classification for top 10
-        scores.loc[scores['Weighted average'].nlargest(10).index, 'Classification'] = 'Top 10'
-        scores.loc[scores['Weighted average'].nlargest(10).index, 'Score'] = POINTS
-        VARIANT = next((key for key, values in TYPES_COLUMN_NAMES.items() if by in values), None)
-        total_results_df[VARIANT] = pd.concat([total_results_df[VARIANT], scores], axis=1)
+        scores.loc[scores['Weighted average'].nlargest(
+            10).index, 'Classification'] = 'Top 10'
+        scores.loc[scores['Weighted average'].nlargest(
+            10).index, 'Score'] = POINTS
+        VARIANT = next(
+            (key for key, values in TYPES_COLUMN_NAMES.items() if by in values), None)
+        total_results_df[VARIANT] = pd.concat(
+            [total_results_df[VARIANT], scores], axis=1)
 
 
 for k in total_results_df.keys():
@@ -176,3 +165,5 @@ for k in total_results_df.keys():
 # with pd.ExcelWriter("output.xlsx", mode="a") as f:
 #     concat_scores.to_excel(f, sheet_name='Summary')
 
+
+# f = suma (clasyfikacji_1*waga)
