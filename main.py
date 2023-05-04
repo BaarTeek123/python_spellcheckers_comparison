@@ -25,60 +25,60 @@ def append_to_csv(data: dict, path_to_file: str, **kwargs):
         return
     pd.DataFrame([data]).to_csv(path_to_file, header=False, mode='a', index=False, **kwargs)
 
-
-list_of_functions = {'Autocorrect': [correct_with_autocorrect],
-                     'SpellChecker': [correct_with_spellchecker],
-                     'TextBlob': [correct_with_textblob],
+list_of_functions = {#'Autocorrect': [correct_with_autocorrect],
+#                      'SpellChecker': [correct_with_spellchecker],
+#                      'TextBlob': [correct_with_textblob],
                      'Gingerit': [correct_with_gingerit],
-                     'LanguageTool': [correct_with_languagetool],
-                     "GramFormer": [correct_with_gramformer],
-                     "Jamspell": [correct_with_jamspell],
+#                      'LanguageTool': [correct_with_languagetool],
+#                      "GramFormer": [correct_with_gramformer],
+#                      "Jamspell": [correct_with_jamspell],
                      "Autocorrect(SpellChecker)": [correct_with_autocorrect, correct_with_spellchecker],
-                     "Autocorrect(TextBlob)": [correct_with_autocorrect, correct_with_textblob],
+#                      "Autocorrect(TextBlob)": [correct_with_autocorrect, correct_with_textblob],
                      "Autocorrect(Gingerit)": [correct_with_autocorrect, correct_with_gingerit],
-                     "Autocorrect(LanguageTool)": [correct_with_autocorrect, correct_with_languagetool],
+#                      "Autocorrect(LanguageTool)": [correct_with_autocorrect, correct_with_languagetool],
                      "Autocorrect(GramFormer)": [correct_with_autocorrect, correct_with_gramformer],
-                     "Autocorrect(Jamspell)": [correct_with_autocorrect, correct_with_jamspell],
+#                      "Autocorrect(Jamspell)": [correct_with_autocorrect, correct_with_jamspell],
                      "SpellChecker(Autocorrect)": [correct_with_spellchecker, correct_with_autocorrect],
-                     "SpellChecker(TextBlob)": [correct_with_spellchecker, correct_with_textblob],
+#                      "SpellChecker(TextBlob)": [correct_with_spellchecker, correct_with_textblob],
                      "SpellChecker(Gingerit)": [correct_with_spellchecker, correct_with_gingerit],
                      "SpellChecker(LanguageTool)": [correct_with_spellchecker, correct_with_languagetool],
                      "SpellChecker(GramFormer)": [correct_with_spellchecker, correct_with_gramformer],
-                     "SpellChecker(Jamspell)": [correct_with_spellchecker, correct_with_jamspell],
-                     "TextBlob(Autocorrect)": [correct_with_textblob, correct_with_autocorrect],
-                     "TextBlob(SpellChecker)": [correct_with_textblob, correct_with_spellchecker],
-                     "TextBlob(Gingerit)": [correct_with_textblob, correct_with_gingerit],
-                     "TextBlob(LanguageTool)": [correct_with_textblob, correct_with_languagetool],
-                     "TextBlob(GramFormer)": [correct_with_textblob, correct_with_gramformer],
-                     "TextBlob(Jamspell)": [correct_with_textblob, correct_with_jamspell],
+#                      "SpellChecker(Jamspell)": [correct_with_spellchecker, correct_with_jamspell],
+#                      "TextBlob(Autocorrect)": [correct_with_textblob, correct_with_autocorrect],
+#                      "TextBlob(SpellChecker)": [correct_with_textblob, correct_with_spellchecker],
+#                      "TextBlob(Gingerit)": [correct_with_textblob, correct_with_gingerit],
+#                      "TextBlob(LanguageTool)": [correct_with_textblob, correct_with_languagetool],
+#                      "TextBlob(GramFormer)": [correct_with_textblob, correct_with_gramformer],
+#                      "TextBlob(Jamspell)": [correct_with_textblob, correct_with_jamspell],
                      "Gingerit(Autocorrect)": [correct_with_gingerit, correct_with_autocorrect],
-                     "Gingerit(SpellChecker)": [correct_with_gingerit, correct_with_spellchecker],
-                     "Gingerit(TextBlob)": [correct_with_gingerit, correct_with_textblob],
+#                      "Gingerit(SpellChecker)": [correct_with_gingerit, correct_with_spellchecker],
+#                      "Gingerit(TextBlob)": [correct_with_gingerit, correct_with_textblob],
                      "Gingerit(LanguageTool)": [correct_with_gingerit, correct_with_languagetool],
                      "Gingerit(GramFormer)": [correct_with_gingerit, correct_with_gramformer],
                      "Gingerit(Jamspell)": [correct_with_gingerit, correct_with_jamspell],
-                     "LanguageTool(Autocorrect)": [correct_with_languagetool, correct_with_autocorrect],
-                     "LanguageTool(SpellChecker)": [correct_with_languagetool, correct_with_spellchecker],
-                     "LanguageTool(TextBlob)": [correct_with_languagetool, correct_with_textblob],
-                     "LanguageTool(Gingerit)": [correct_with_languagetool, correct_with_gingerit],
-                     "LanguageTool(GramFormer)": [correct_with_languagetool, correct_with_gramformer],
-                     "LanguageTool(Jamspell)": [correct_with_languagetool, correct_with_jamspell],
+#                      "LanguageTool(Autocorrect)": [correct_with_languagetool, correct_with_autocorrect],
+#                      "LanguageTool(SpellChecker)": [correct_with_languagetool, correct_with_spellchecker],
+#                      "LanguageTool(TextBlob)": [correct_with_languagetool, correct_with_textblob],
+#                      "LanguageTool(Gingerit)": [correct_with_languagetool, correct_with_gingerit],
+#                      "LanguageTool(GramFormer)": [correct_with_languagetool, correct_with_gramformer],
+#                      "LanguageTool(Jamspell)": [correct_with_languagetool, correct_with_jamspell],
                      "GramFormer(Autocorrect)": [correct_with_gramformer, correct_with_autocorrect],
-                     "GramFormer(SpellChecker)": [correct_with_gramformer, correct_with_spellchecker],
-                     "GramFormer(TextBlob)": [correct_with_gramformer, correct_with_textblob],
+#                      "GramFormer(SpellChecker)": [correct_with_gramformer, correct_with_spellchecker],
+#                      "GramFormer(TextBlob)": [correct_with_gramformer, correct_with_textblob],
                      "GramFormer(Gingerit)": [correct_with_gramformer, correct_with_gingerit],
                      "GramFormer(LanguageTool)": [correct_with_gramformer, correct_with_languagetool],
-                     "GramFormer(Jamspell)": [correct_with_gramformer, correct_with_jamspell],
-                     "Jamspell(Autocorrect)": [correct_with_jamspell, correct_with_autocorrect],
-                     "Jamspell(SpellChecker)": [correct_with_jamspell, correct_with_spellchecker],
-                     "Jamspell(TextBlob)": [correct_with_jamspell, correct_with_textblob],
-                     "Jamspell(Gingerit)": [correct_with_jamspell, correct_with_gingerit],
-                     "Jamspell(LanguageTool)": [correct_with_jamspell, correct_with_languagetool],
-                     "Jamspell(GramFormer)": [correct_with_jamspell, correct_with_gramformer]}
+#                      "GramFormer(Jamspell)": [correct_with_gramformer, correct_with_jamspell],
+#                      "Jamspell(Autocorrect)": [correct_with_jamspell, correct_with_autocorrect],
+#                      "Jamspell(SpellChecker)": [correct_with_jamspell, correct_with_spellchecker],
+#                      "Jamspell(TextBlob)": [correct_with_jamspell, correct_with_textblob],
+#                      "Jamspell(Gingerit)": [correct_with_jamspell, correct_with_gingerit],
+#                      "Jamspell(LanguageTool)": [correct_with_jamspell, correct_with_languagetool],
+#                      "Jamspell(GramFormer)": [correct_with_jamspell, correct_with_gramformer]\
+}
 
 if __name__ == '__main__':
     sentences = open("./texts/input_sentences.txt").read().split('\n')
-    sentences = [sent for sent in sentences if len(sent.split()) <= 6][4500:5000]
+    sentences = [sent for sent in sentences if len(sent.split()) <= 6][13500:] #2266
     for template in sentences:
         i = 1
         while i <= 8:
@@ -93,11 +93,11 @@ if __name__ == '__main__':
                     dictionary = object_to_dicts(Distance(fp, template))
                     dictionary['function'] = name
                     dictionary['time'] = fp_time
-                    append_to_csv(dictionary, f'./csv_output/fp.csv', sep=';')
+                    append_to_csv(dictionary, './csv_output/fp.csv', sep=';')
 
-                    # if os.stat('collection1.dat').st_size == 0:
+                                    # if os.stat('collection1.dat').st_size == 0:
 
-                    # pd.DataFrame.from_dict(dictionary).to_csv(file_path,mode='a+', index=False, sep=';')
+                                    # pd.DataFrame.from_dict(dictionary).to_csv(file_path,mode='a+', index=False, sep=';')
                 # detect key positives
                 key_corrected_sentence, key_correction_time = run_list_of_functions(fun, keys_misspelled)
                 # detect random positives
@@ -132,6 +132,8 @@ if __name__ == '__main__':
                 i+=1
             else:
                 i+=2
+
+
 
 
 
